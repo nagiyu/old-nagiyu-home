@@ -22,13 +22,13 @@ jobs:
       run: dotnet publish --configuration Release Home/Home.csproj
 
     - name: Copy files
-      run: cp -r Home/bin/Release/net8.0/publish containers/home/bin
+      run: cp -r Home/bin/Release/net8.0/publish bin
 
     # - name: Add .env
     #   run: echo "${{ secrets.PRODUCTION_ENV }}" > containers/.env
 
     # - name: Update appsettings.json
-    #   run: echo '${{ secrets.PRODUCTION_APPSETTINGS }}' > containers/home/bin/appsettings.json
+    #   run: echo '${{ secrets.PRODUCTION_APPSETTINGS }}' > bin/appsettings.json
 
     - name: Remove Nginx Settings in target path
       uses: appleboy/ssh-action@master
@@ -64,12 +64,10 @@ jobs:
           sudo ln -s /etc/nginx/sites-available/home /etc/nginx/sites-enabled/
           sudo systemctl restart nginx
 
-    # IP取得ライブラリをインストール
     - name: Public IP Install
       id: ip
       uses: haythem/public-ip@v1.3
 
-    # AWS CLIをインストールする
     - name: AWS CLI install
       run: |
         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -77,7 +75,6 @@ jobs:
         sudo ./aws/install --update
         aws --version
 
-    # AWS CLIにキーを設定をする
     - name: AWS set Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -85,7 +82,6 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    # Open SecurityGroup
     - name: Open SecurityGroup
       run: aws ec2 authorize-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
@@ -97,20 +93,20 @@ jobs:
     #     key: ${{ secrets.SSH_PRIVATE_KEY }}
     #     port: ${{ secrets.SSH_PORT }}
     #     script: |
-    #       cd ${{ secrets.PRODUCTION_TARGET_PATH }}/containers
+    #       cd /home/ec2-user/home/bin
     #       docker compose -f docker-compose.yml -p home down
     #       docker volume prune -f && docker image prune -f && docker builder prune -f
     #       sudo rm -Rf *
 
-    # - name: Upload artifact to server
-    #   uses: appleboy/scp-action@master
-    #   with:
-    #     host: ${{ secrets.SSH_HOST }}
-    #     username: ${{ secrets.SSH_USERNAME }}
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     port: ${{ secrets.SSH_PORT }}
-    #     source: containers/*
-    #     target: ${{ secrets.PRODUCTION_TARGET_PATH }}
+    - name: Upload artifact to server
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        source: bin/*
+        target: /home/ec2-user/home
 
     # - name: Recreate Home
     #   uses: appleboy/ssh-action@master
@@ -120,6 +116,9 @@ jobs:
     #     key: ${{ secrets.SSH_PRIVATE_KEY }}
     #     port: ${{ secrets.SSH_PORT }}
     #     script: |
-    #       cd ${{ secrets.PRODUCTION_TARGET_PATH }}/containers
+    #       cd /home/ec2-user/home/bin
     #       docker compose -f docker-compose.yml build --no-cache
     #       docker compose -f docker-compose.yml -p home up -d
+
+    - name: Close SecurityGroup
+      run: aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
