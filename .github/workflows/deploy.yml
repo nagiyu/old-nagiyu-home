@@ -114,7 +114,9 @@ jobs:
         username: ${{ secrets.AWS_SSH_USERNAME }}
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: ${{ secrets.AWS_SSH_PORT }}
-        script: nohup dotnet /home/ec2-user/home/bin/Home.dll > /home/ec2-user/output.log 2>&1 &
+        script: |
+          cd /home/ec2-user/home/bin
+          nohup dotnet Home.dll --urls "http://0.0.0.0:5000" > /home/ec2-user/output.log 2>&1 &
 
     - name: Close SecurityGroup
       run: aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
