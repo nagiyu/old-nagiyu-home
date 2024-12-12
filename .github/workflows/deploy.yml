@@ -88,10 +88,10 @@ jobs:
     # - name: Remove all files in target path
     #   uses: appleboy/ssh-action@master
     #   with:
-    #     host: ${{ secrets.SSH_HOST }}
-    #     username: ${{ secrets.SSH_USERNAME }}
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     port: ${{ secrets.SSH_PORT }}
+    #     host: ${{ secrets.AWS_SSH_HOST }}
+    #     username: ${{ secrets.AWS_SSH_USERNAME }}
+    #     key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+    #     port: ${{ secrets.AWS_SSH_PORT }}
     #     script: |
     #       cd /home/ec2-user/home/bin
     #       docker compose -f docker-compose.yml -p home down
@@ -101,20 +101,20 @@ jobs:
     - name: Upload artifact to server
       uses: appleboy/scp-action@master
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: ${{ secrets.SSH_PORT }}
+        host: ${{ secrets.AWS_SSH_HOST }}
+        username: ${{ secrets.AWS_SSH_USERNAME }}
+        key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+        port: ${{ secrets.AWS_SSH_PORT }}
         source: bin/*
         target: /home/ec2-user/home
 
     # - name: Recreate Home
     #   uses: appleboy/ssh-action@master
     #   with:
-    #     host: ${{ secrets.SSH_HOST }}
-    #     username: ${{ secrets.SSH_USERNAME }}
-    #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-    #     port: ${{ secrets.SSH_PORT }}
+    #     host: ${{ secrets.AWS_SSH_HOST }}
+    #     username: ${{ secrets.AWS_SSH_USERNAME }}
+    #     key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+    #     port: ${{ secrets.AWS_SSH_PORT }}
     #     script: |
     #       cd /home/ec2-user/home/bin
     #       docker compose -f docker-compose.yml build --no-cache
