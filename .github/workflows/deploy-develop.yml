@@ -22,7 +22,7 @@ jobs:
       run: dotnet publish --configuration Release Home/Home.csproj
 
     - name: Copy files
-      run: cp -r Home/bin/Release/net8.0/publish containers/Home/bin
+      run: cp -r Home/bin/Release/net8.0/publish containers/home/bin
 
     - name: Add .env
       run: echo "${{ secrets.DEVELOP_ENV }}" > containers/.env
