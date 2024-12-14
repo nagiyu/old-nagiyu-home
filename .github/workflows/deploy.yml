@@ -18,17 +18,17 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
+    - name: Add ads.txt
+      run: echo '${{ secrets.ADS_TXT }}' > Home/wwwroot/ads.txt
+
     - name: Publish with dotnet
       run: dotnet publish --configuration Release Home/Home.csproj
 
     - name: Copy files
       run: cp -r Home/bin/Release/net8.0/publish bin
 
-    # - name: Add .env
-    #   run: echo "${{ secrets.PRODUCTION_ENV }}" > containers/.env
-
-    # - name: Update appsettings.json
-    #   run: echo '${{ secrets.PRODUCTION_APPSETTINGS }}' > bin/appsettings.json
+    - name: Update appsettings.json
+      run: echo '${{ secrets.APPSETTINGS }}' > bin/appsettings.json
 
     - name: Remove Nginx Settings in target path
       uses: appleboy/ssh-action@master

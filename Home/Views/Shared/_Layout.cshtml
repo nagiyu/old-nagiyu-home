@@ -1,4 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Configuration
+
+@inject IConfiguration Configuration
 @inject IWebHostEnvironment env
 
 <!DOCTYPE html>
@@ -12,7 +15,8 @@
     <link rel="stylesheet" href="~/Home.styles.css" asp-append-version="true" />
     @if (env.EnvironmentName == "Production")
     {
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6784165593921713"
+        <meta name="google-adsense-account" content="@Configuration["GoogleAdSense:Account"]">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=@Configuration["GoogleAdSense:Account"]"
                 crossorigin="anonymous"></script>
     }
 </head>
