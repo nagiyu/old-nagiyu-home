@@ -28,7 +28,7 @@ jobs:
       run: cp -r Home/bin/Release/net8.0/publish bin
 
     - name: Update appsettings.json
-      run: echo '${{ secrets.APPSETTINGS }}' > bin/appsettings.json
+      run: echo '${{ secrets.PRODUCTION_APPSETTINGS }}' > bin/appsettings.json
 
     - name: Remove Nginx Settings in target path
       uses: appleboy/ssh-action@master
