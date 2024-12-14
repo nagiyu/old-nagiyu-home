@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -19,4 +23,67 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* 全体のコンテナ */
+.container {
+  width: 80%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* セクションのスタイル */
+.content-section {
+  margin-bottom: 30px;
+}
+
+/* 見出しのスタイル */
+.content-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+/* リンクボックス共通スタイル */
+.link-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* ★ 正方形を維持する！ */
+  aspect-ratio: 1 / 1;
+  /* 縦横比を1:1に固定 */
+  width: calc(25% - 10px);
+  /* デフォルトは横に4つ並ぶ幅 */
+}
+
+.link-box:hover {
+  background-color: #eaeaea;
+}
+
+/* コンテナ（リンクの親）のスタイル */
+.content-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* 横幅が狭くなったら自動で折り返し */
+}
+
+/* ★ レスポンシブ対応 */
+/* デフォルト：大画面（Windows）は横に4つ */
+.content-links .link-box {
+  width: calc(25% - 10px);
+  /* 横幅の25% - 隙間分で4つ */
+}
+
+/* タブレット・スマホ：横に2つ */
+@media screen and (max-width: 768px) {
+  .content-links .link-box {
+    width: calc(50% - 10px);
+    /* 横幅の50% - 隙間分で2つ */
+  }
 }
