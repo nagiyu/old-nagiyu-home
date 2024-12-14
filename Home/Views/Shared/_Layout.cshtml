@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Home.styles.css" asp-append-version="true" />
+
+    @* Font Awesome *@
+    <script src="@Configuration["FontAwesome:KitUrl"]" crossorigin="anonymous"></script>
+
     @if (env.EnvironmentName == "Production")
     {
         <meta name="google-adsense-account" content="@Configuration["GoogleAdSense:Account"]">

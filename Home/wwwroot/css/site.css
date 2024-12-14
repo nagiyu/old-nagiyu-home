@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -19,4 +23,84 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/* 全体のコンテナ */
+.container {
+  width: 80%;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* セクションのスタイル */
+.content-section {
+  margin-bottom: 30px;
+}
+
+/* 見出しのスタイル */
+.content-section h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+/* リンクボックス共通スタイル */
+.link-box {
+  display: flex;
+  flex-direction: column;
+  /* アイコンを上、文字を下に配置 */
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  text-decoration: none;
+  /* リンクの下線を消す */
+  color: #333;
+  /* リンク文字の色 */
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  /* ★ 正方形を維持する！ */
+  aspect-ratio: 1 / 1;
+  /* 縦横比を1:1に固定 */
+  width: calc(25% - 10px);
+  /* デフォルトは横に4つ並ぶ幅 */
+}
+
+.link-box:hover {
+  background-color: #eaeaea;
+  color: #000;
+  /* ホバー時に文字の色を変える */
+}
+
+/* コンテナ（リンクの親）のスタイル */
+.content-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  /* 横幅が狭くなったら自動で折り返し */
+}
+
+/* アイコンのスタイル */
+.link-box i {
+  font-size: 50px;
+  /* アイコンを大きめにする */
+  margin-bottom: 30px;
+  /* アイコンと文字の間のスペース */
+}
+
+/* タブレット・スマホ：横に2つ */
+@media screen and (max-width: 768px) {
+  .link-box {
+    width: calc(50% - 10px);
+    /* 横幅の50% - 隙間分で2つ */
+  }
+
+  .link-box i {
+    font-size: 30px;
+    /* アイコンを大きめにする */
+    margin-bottom: 15px;
+    /* アイコンと文字の間のスペース */
+  }
 }
