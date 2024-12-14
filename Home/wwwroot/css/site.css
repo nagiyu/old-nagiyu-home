@@ -46,8 +46,15 @@ body {
 /* リンクボックス共通スタイル */
 .link-box {
   display: flex;
+  flex-direction: column;
+  /* アイコンを上、文字を下に配置 */
   justify-content: center;
   align-items: center;
+  text-align: center;
+  text-decoration: none;
+  /* リンクの下線を消す */
+  color: #333;
+  /* リンク文字の色 */
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   font-size: 14px;
@@ -63,6 +70,8 @@ body {
 
 .link-box:hover {
   background-color: #eaeaea;
+  color: #000;
+  /* ホバー時に文字の色を変える */
 }
 
 /* コンテナ（リンクの親）のスタイル */
@@ -73,17 +82,25 @@ body {
   /* 横幅が狭くなったら自動で折り返し */
 }
 
-/* ★ レスポンシブ対応 */
-/* デフォルト：大画面（Windows）は横に4つ */
-.content-links .link-box {
-  width: calc(25% - 10px);
-  /* 横幅の25% - 隙間分で4つ */
+/* アイコンのスタイル */
+.link-box i {
+  font-size: 50px;
+  /* アイコンを大きめにする */
+  margin-bottom: 30px;
+  /* アイコンと文字の間のスペース */
 }
 
 /* タブレット・スマホ：横に2つ */
 @media screen and (max-width: 768px) {
-  .content-links .link-box {
+  .link-box {
     width: calc(50% - 10px);
     /* 横幅の50% - 隙間分で2つ */
+  }
+
+  .link-box i {
+    font-size: 30px;
+    /* アイコンを大きめにする */
+    margin-bottom: 15px;
+    /* アイコンと文字の間のスペース */
   }
 }
