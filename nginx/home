@@ -35,7 +35,7 @@ server {
 
 	# Proxy設定
 	location / {
-		proxy_pass http://15.152.80.220:5000;
+		proxy_pass http://15.152.167.221:5000;
 		proxy_http_version 1.1;
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
