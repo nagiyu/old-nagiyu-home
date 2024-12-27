@@ -1,0 +1,36 @@
+name: temp
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Remove Nginx Settings in target path
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.XSERVER_SSH_HOST }}
+        username: ${{ secrets.XSERVER_SSH_USERNAME }}
+        key: ${{ secrets.XSERVER_SSH_PRIVATE_KEY }}
+        port: ${{ secrets.XSERVER_SSH_PORT }}
+        script: |
+          sudo rm -rf /etc/nginx/sites-enabled/home
+          sudo rm -rf /etc/nginx/sites-available/home
+          sudo systemctl restart nginx
+
+    - name: Remove all files in target path
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.XSERVER_SSH_HOST }}
+        username: ${{ secrets.XSERVER_SSH_USERNAME }}
+        key: ${{ secrets.XSERVER_SSH_PRIVATE_KEY }}
+        port: ${{ secrets.XSERVER_SSH_PORT }}
+        script: |
+          cd ${{ secrets.DEVELOP_TARGET_PATH }}/containers
+          docker compose -f docker-compose.yml -p develop_home down
+          docker volume prune -f && docker image prune -f && docker builder prune -f
